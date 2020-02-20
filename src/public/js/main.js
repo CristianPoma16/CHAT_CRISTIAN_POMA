@@ -1,5 +1,7 @@
-$(function () {
-
+$(function() {
+    const fecha = new Date();
+    const hora = fecha.getHours();
+    const minutos = fecha.getMinutes();
     // socket.io client side connection
     const socket = io.connect();
 
@@ -17,56 +19,58 @@ $(function () {
     const $users = $('#usernames');
 
     $nickForm.submit(e => {
-      e.preventDefault();
-      socket.emit('new user', $nickname.val(), data => {
-        if(data) {
-          $('#nickWrap').hide();
-          $('#contentWrap').show();
-          $('#message').focus();
-        } else {
-          $nickError.html(`
+        e.preventDefault();
+        socket.emit('new user', $nickname.val(), data => {
+            if (data) {
+                $('#nickWrap').hide();
+                $('#contentWrap').show();
+                $('#message').focus();
+            } else {
+                $nickError.html(`
             <div class="alert alert-danger">
-              That username already Exists.
+              Este usuario ya existe
             </div>
           `);
-        }
-      });
-      $nickname.val('');
+            }
+        });
+        $nickname.val('');
     });
 
     // events
-    $messageForm.submit( e => {
-      e.preventDefault();
-      socket.emit('send message', $messageBox.val(), data => {
-        $chat.append(`<p class="error">${data}</p>`)
-      });
-      $messageBox.val('');
+    $messageForm.submit(e => {
+        e.preventDefault();
+        socket.emit('send message', $messageBox.val(), data => {
+            $chat.append(`<p class="error">${data}</p>`)
+        });
+        $messageBox.val('');
     });
 
     socket.on('new message', data => {
-      displayMsg(data);
+        displayMsg(data);
     });
 
     socket.on('usernames', data => {
-      let html = '';
-      for(i = 0; i < data.length; i++) {
-        html += `<p><i class="fas fa-user"></i> ${data[i]}</p>`; 
-      }
-      $users.html(html);
-    });
-    
-    socket.on('whisper', data => {
-      $chat.append(`<p class="whisper"><b>${data.nick}</b>: ${data.msg}</p>`);
+        let html = '';
+        for (i = 0; i < data.length; i++) {
+            html += `<p><i class="fas fa-user"></i> ${data[i]}</p>`;
+        }
+        $users.html(html);
     });
 
-    socket.on('load old msgs', msgs => {
-      for(let i = msgs.length -1; i >=0 ; i--) {
-        displayMsg(msgs[i]);
-      }
+    socket.on('whisper', data => {
+        $chat.append(`<p class="whisper"><b>${data.nick}</b>: ${data.msg}</p>`);
     });
+
+    //MOSTRAR MENSAJES ANTIGUOS
+
+    // socket.on('cargar mensajes antiguos', msgs => {
+    //     for (let i = msgs.length - 1; i >= 0; i--) {
+    //         displayMsg(msgs[i]);
+    //     }
+    // });
 
     function displayMsg(data) {
-      $chat.append(`<p class="msg"><b>${data.nick}</b>: ${data.msg}</p>`);
+        $chat.append(`<p class="msg"><b>${hora}:${minutos} ${data.nick}</b>: ${data.msg}</p>`);
     }
 
 });

@@ -8,8 +8,8 @@ require('./sockets')(io);
 require('./database');
 
 async function main() {
-  await server.listen(app.get('port'));
-  console.log(`server on port ${app.get('port')}`);
+    await server.listen(app.get('port'));
+    console.log(`server on port ${app.get('port')}`);
 }
 
 main();
