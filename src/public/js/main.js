@@ -63,11 +63,11 @@ $(function() {
 
     //MOSTRAR MENSAJES ANTIGUOS
 
-    socket.on('cargar mensajes antiguos', msgs => {
-        for (let i = msgs.length - 1; i >= 0; i--) {
-            displayMsg(msgs[i]);
-        }
-    });
+    // socket.on('cargar mensajes antiguos', msgs => {
+    //     for (let i = msgs.length - 1; i >= 0; i--) {
+    //         displayMsg(msgs[i]);
+    //     }
+    // });
 
     function displayMsg(data) {
         $chat.append(`<p class="msg"><b>${hora}:${minutos} ${data.nick}</b>: ${data.msg}</p>`);
