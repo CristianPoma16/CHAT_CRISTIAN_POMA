@@ -70,7 +70,8 @@ $(function() {
     // });
 
     function displayMsg(data) {
-        $chat.append(`<p class="msg"><b>${hora}:${minutos} ${data.nick}</b>: ${data.msg}</p>`);
+        $chat.append(`<p class="msg"><b>${hora}:${minutos} ${data.nick}</b>: ${data.msg} </p>`);
+
     }
 
 });
